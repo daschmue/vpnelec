@@ -1,6 +1,6 @@
 # VPNelec
 
-Schlanker OpenVPN-Schalter mit echtem Killswitch für  LibreELEC.
+Schlanker OpenVPN-Schalter mit echtem Killswitch für  LibreELEC, gemacht mit claude.ai.
 
 Verbindet und trennt eine OpenVPN-Verbindung direkt aus Kodi – ohne SSH oder Kommandozeile. Der eingebaute iptables-Killswitch blockiert bei einem Tunnel-Abbruch sämtlichen ungetunnelten Verkehr, damit die echte IP nicht durchsickert.
 
