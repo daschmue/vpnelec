@@ -14,9 +14,10 @@ Verbindet und trennt eine OpenVPN-Verbindung direkt aus Kodi – ohne SSH oder K
 
 - Verbinden / Trennen per Klick aus einem einfachen Menü
 - **Killswitch (iptables):** Bricht der Tunnel weg, wird aller Verkehr außerhalb des Tunnels blockiert. Erlaubt bleiben nur: der Tunnel selbst, der direkte Weg zum VPN-Server (für den Verbindungsaufbau), das lokale Netz (LAN) und DNS. IPv4 und IPv6 werden abgedeckt.
+- **DNS-Modus pro Profil:** Für jedes Profil lässt sich wählen, wie DNS aufgelöst wird – über den in der `.ovpn` hinterlegten DNS-Server (falls vorhanden), über Quad9 (9.9.9.9) durch den Tunnel, oder über das lokale Netz (Router). Bei den getunnelten Modi werden die DNS-Anfragen wirklich durch den Tunnel geleitet, sodass kein DNS-Leak entsteht. Die Einstellung gilt ab dem nächsten Verbinden; bei bestehender Verbindung wird sie sofort angewendet.
 - Mehrere Profile: beliebig viele `.ovpn`-Konfigurationen importieren und per Menü umschalten
 - Zugangsdaten pro Profil, lokal im Kodi-userdata-Verzeichnis gespeichert (nicht im Addon)
-- Statusanzeige: Verbindungszustand, aktives Profil, Tunnel-Interface, aktuell nach außen sichtbare IP
+- Statusanzeige: Verbindungszustand, aktives Profil, Tunnel-Interface, aktuell nach außen sichtbare IP, aktiver DNS-Modus
 - Notaus: löscht alle Firewall-Regeln und beendet OpenVPN, stellt die normale Verbindung wieder her
 
 ### Voraussetzungen
@@ -32,10 +33,15 @@ Verbindet und trennt eine OpenVPN-Verbindung direkt aus Kodi – ohne SSH oder K
 3. Addon öffnen, *Profil importieren (.ovpn)* wählen, `.ovpn`-Datei auswählen, Zugangsdaten eingeben.
 4. *Verbinden* wählen.
 
+Es sind keinerlei VPN-Daten im Addon enthalten. Jeder trägt seine eigene `.ovpn` und seine eigenen Zugangsdaten ein.
+
+Den DNS-Modus eines Profils stellt man unter *Profile verwalten → Profil wählen → DNS-Modus* ein.
+
 ### Hinweis zur Sicherheit
 
 Der Killswitch wurde gegen den harten Abbruch des OpenVPN-Prozesses getestet (das häufigste Ausfall-Szenario): nach `killall -9 openvpn` kam über keinen der geprüften Wege (IPv4, IPv6, ICMP, direkte IP ohne DNS) Verkehr durch. Eine erschöpfende Prüfung gegen alle denkbaren Sonderfälle ist das nicht. Wer maximale Sicherheit braucht, prüft seinen eigenen Aufbau selbst.
-DNS-Hinweis: VPNelec tunnelt den IP-Verkehr und sichert ihn per Killswitch. DNS-Anfragen können je nach Netzkonfiguration (z. B. Router/Pi-hole als DNS) außerhalb des Tunnels auflösen. Wer das vermeiden will, trägt auf dem Gerät einen Resolver ein, der durch den Tunnel läuft.
+
+**DNS-Hinweis:** Im Modus „lokal" werden DNS-Anfragen über den Router aufgelöst und verlassen den Tunnel – das kann ein DNS-Leak sein, hält aber die lokale Namensauflösung (z. B. Samba-Freigaben per Name) am Leben. In den getunnelten Modi (Quad9 oder `.ovpn`-DNS) laufen die Anfragen durch den Tunnel; dabei kann die Auflösung lokaler Gerätenamen wegfallen (Geräte per IP-Adresse funktionieren weiter). Auf LibreELEC verwaltet connman die DNS-Einstellung; bei manchen Netzwerkereignissen (z. B. Reconnect) kann sie kurzzeitig zurückgesetzt werden, bis der Modus erneut greift.
 
 ### Lizenz
 
@@ -55,9 +61,10 @@ Connects and disconnects an OpenVPN connection directly from within Kodi – no 
 
 - Connect / disconnect with a click from a simple menu
 - **Kill switch (iptables):** If the tunnel drops, all traffic outside the tunnel is blocked. Only the following remain permitted: the tunnel itself, the direct route to the VPN server (for connection setup), the local network (LAN) and DNS. IPv4 and IPv6 are both covered.
+- **Per-profile DNS mode:** For each profile you can choose how DNS is resolved – via the DNS server defined in the `.ovpn` (if present), via Quad9 (9.9.9.9) through the tunnel, or via the local network (router). In the tunneled modes, DNS queries are actually routed through the tunnel, so no DNS leak occurs. The setting takes effect on the next connection; if a connection is already active, it is applied immediately.
 - Multiple profiles: import any number of `.ovpn` configurations and switch between them via the menu
 - Credentials per profile, stored locally in Kodi's userdata directory (not in the addon)
-- Status view: connection state, active profile, tunnel interface, currently externally visible IP
+- Status view: connection state, active profile, tunnel interface, currently externally visible IP, active DNS mode
 - Panic button: removes all firewall rules and stops OpenVPN, restoring normal connectivity
 
 ### Requirements
@@ -73,10 +80,15 @@ Connects and disconnects an OpenVPN connection directly from within Kodi – no 
 3. Open the addon, choose *Import profile (.ovpn)*, select your `.ovpn` file, and enter your credentials.
 4. Choose *Connect*.
 
+No VPN data whatsoever is included in the addon. Everyone supplies their own `.ovpn` and their own credentials.
+
+The DNS mode of a profile is set under *Manage profiles → select profile → DNS mode*.
+
 ### Security Note
 
 The kill switch has been tested against a hard termination of the OpenVPN process (the most common failure scenario): after `killall -9 openvpn`, no traffic got through via any of the tested paths (IPv4, IPv6, ICMP, direct IP without DNS). This is not an exhaustive test against every conceivable edge case. Anyone who needs maximum security should verify their own setup.
-DNS note: VPNelec tunnels IP traffic and protects it via kill switch. Depending on your network setup (e.g. router/Pi-hole as DNS), DNS queries may resolve outside the tunnel. To avoid this, set a resolver on the device that routes through the tunnel.
+
+**DNS note:** In "local" mode, DNS queries are resolved via the router and leave the tunnel – this can be a DNS leak, but keeps local name resolution working (e.g. Samba shares by name). In the tunneled modes (Quad9 or `.ovpn` DNS), queries are routed through the tunnel; local device-name resolution may then stop working (devices addressed by IP continue to work). On LibreELEC, connman manages the DNS setting; on some network events (e.g. reconnect) it may be reset briefly until the mode is re-applied.
 
 ### License
 
