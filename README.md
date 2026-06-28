@@ -35,6 +35,7 @@ Verbindet und trennt eine OpenVPN-Verbindung direkt aus Kodi – ohne SSH oder K
 ### Hinweis zur Sicherheit
 
 Der Killswitch wurde gegen den harten Abbruch des OpenVPN-Prozesses getestet (das häufigste Ausfall-Szenario): nach `killall -9 openvpn` kam über keinen der geprüften Wege (IPv4, IPv6, ICMP, direkte IP ohne DNS) Verkehr durch. Eine erschöpfende Prüfung gegen alle denkbaren Sonderfälle ist das nicht. Wer maximale Sicherheit braucht, prüft seinen eigenen Aufbau selbst.
+DNS-Hinweis: VPNelec tunnelt den IP-Verkehr und sichert ihn per Killswitch. DNS-Anfragen können je nach Netzkonfiguration (z. B. Router/Pi-hole als DNS) außerhalb des Tunnels auflösen. Wer das vermeiden will, trägt auf dem Gerät einen Resolver ein, der durch den Tunnel läuft.
 
 ### Lizenz
 
@@ -75,6 +76,7 @@ Connects and disconnects an OpenVPN connection directly from within Kodi – no 
 ### Security Note
 
 The kill switch has been tested against a hard termination of the OpenVPN process (the most common failure scenario): after `killall -9 openvpn`, no traffic got through via any of the tested paths (IPv4, IPv6, ICMP, direct IP without DNS). This is not an exhaustive test against every conceivable edge case. Anyone who needs maximum security should verify their own setup.
+DNS note: VPNelec tunnels IP traffic and protects it via kill switch. Depending on your network setup (e.g. router/Pi-hole as DNS), DNS queries may resolve outside the tunnel. To avoid this, set a resolver on the device that routes through the tunnel.
 
 ### License
 
