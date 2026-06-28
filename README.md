@@ -32,8 +32,6 @@ Verbindet und trennt eine OpenVPN-Verbindung direkt aus Kodi – ohne SSH oder K
 3. Addon öffnen, *Profil importieren (.ovpn)* wählen, `.ovpn`-Datei auswählen, Zugangsdaten eingeben.
 4. *Verbinden* wählen.
 
-Es sind keinerlei VPN-Daten im Addon enthalten. Jeder trägt seine eigene `.ovpn` und seine eigenen Zugangsdaten ein.
-
 ### Hinweis zur Sicherheit
 
 Der Killswitch wurde gegen den harten Abbruch des OpenVPN-Prozesses getestet (das häufigste Ausfall-Szenario): nach `killall -9 openvpn` kam über keinen der geprüften Wege (IPv4, IPv6, ICMP, direkte IP ohne DNS) Verkehr durch. Eine erschöpfende Prüfung gegen alle denkbaren Sonderfälle ist das nicht. Wer maximale Sicherheit braucht, prüft seinen eigenen Aufbau selbst.
@@ -73,8 +71,6 @@ Connects and disconnects an OpenVPN connection directly from within Kodi – no 
 2. In Kodi: Add-ons → Install from ZIP file → select the downloaded ZIP. (For this, the option *Unknown sources* must be enabled under Settings → System → Add-ons.)
 3. Open the addon, choose *Import profile (.ovpn)*, select your `.ovpn` file, and enter your credentials.
 4. Choose *Connect*.
-
-No VPN data whatsoever is included in the addon. Everyone supplies their own `.ovpn` and their own credentials.
 
 ### Security Note
 
